@@ -4,6 +4,7 @@
     <table>
         <tr>
             <th>Name</th>
+            <th>Last Name</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th>Password</th>
