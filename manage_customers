@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset= "utf-8">
+<link href= 'main.css' rel = 'stylesheet' type= 'text/css'>
+
+</head>
+<body>
+
+<h1>Customer Search</h1>
+
+<?php include('../view/header.php'); ?>
+<?php
+// Connect to MySQL, select database
+
+if (mysqli_connect_errno( $connect)) {
+    echo "Failed to connect to MySQL: " . mysqli_connect($connect);
+    exit ("Connection Error");
+}
+
+    echo '<table><tr>';
+    echo '<td><label>Last Name: </label></td>
+          <td><input type= "text" name= "last"/></td>
+          <td><input type="Submit" value = "Search"></input></td>';
+    echo '</tr></table>';
+    
+    if (! empty($_POST['last'])) {
+        $last = $_POST['last'];
+            
+        $fromsql = "SELECT firstName, lastName, email, city FROM customers WHERE lastName = '$last';";
+        $prints = mysqli_query($connect, $fromsql) or die('Query failed: ' .mysqli_errno($connect));
+
+
+
+        echo '<form method= "POST" action= "update.php"><table>';
+        echo "<thead><tr>";
+        echo "<th>First Name</th><th>Last Name></th><th>Email Address</th><th>City</th><th></th>"; 
+        echo "<thead><tr>";
+        $total = 0;
+
+        while ($rows = mysqli_fetch_array($prints, MYSQLI_ASSOC)) {
+            foreach ($rows as $value){
+                ++$total;
+                echo "<td>", "$value", "</td>";
+                if ($total % 4 == 0){
+                    echo '<td><input type= "Submit" value= "Search"></input>';
+                    echo "<br>";
+                }
+                echo "</tr>";
+            }
+            echo "</table></form>";
+        }
+
+    }
+    
+    ?>
+    <?php include("../view/footer.php"); ?>
+    
+    </body>
+</html>
